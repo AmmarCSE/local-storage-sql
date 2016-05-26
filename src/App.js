@@ -436,7 +436,6 @@ if (typeof process != "undefined") (function(){
     });
     process.stdin.on("end", function(){
         var ast = parse(TokenStream(InputStream(code)));
-console.log(JSON.stringify(ast, null, 4));
         evaluate(ast, globalEnv);
     });
 })();
@@ -534,5 +533,56 @@ switch
     case
     case
 }
-*/
 
+---------------------------------------------------------------------------
+
+SELECT first_name, last_name 
+FROM users
+WHERE age > 30
+
+{ type: 'keyword', value: 'FROM' }
+{ type: 'acquire', value: 'users' }
+{ type: 'keyword', value: 'WHERE' }
+{ type: 'condition', value: 'age > 30' }
+{ type: 'keyword', value: 'SELECT' }
+{ type: 'acquire', value: 'first_name, last_name ' }
+
+[
+    {
+        "type": "source",
+        "value": "users",
+        "operations": [
+            { 
+                "type": "where",
+                "vars": [
+                    "age > 30"
+                ]
+            },
+            { 
+                "type": "orderby",
+                "vars": [
+                    "last_name",
+                    "asc"
+                ]
+            }
+        ]
+    },
+    {
+        "type": "action",
+        "value": "select",
+        "vars": {
+            [ 
+                first_name,
+                last_name             
+            ],
+        }
+    }
+]
+
+INSERT INTO users VALUES(123, 'Ammar')
+{ type: 'keyword', value: 'INSERT' }
+{ type: 'keyword', value: 'INTO' }
+{ type: 'acquire', value: 'users' }
+{ type: 'keyword', value: 'VALUES' }
+{ type: 'data', value: '(123, "Ammar")' }
+*/ 
