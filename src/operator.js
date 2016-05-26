@@ -1,7 +1,7 @@
 import parse from '../parser/parser'
-import evaluate from '../interpreter'
+import execute from '../interpreter'
 
 export function processQuery(query) {
     let asts = parse(query)
-    return evaluate(asts)
+    return execute(asts)
 }
