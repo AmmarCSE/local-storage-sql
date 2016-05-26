@@ -436,6 +436,7 @@ if (typeof process != "undefined") (function(){
     });
     process.stdin.on("end", function(){
         var ast = parse(TokenStream(InputStream(code)));
+console.log(JSON.stringify(ast, null, 4));
         evaluate(ast, globalEnv);
     });
 })();
@@ -540,12 +541,9 @@ SELECT first_name, last_name
 FROM users
 WHERE age > 30
 
-{ type: 'keyword', value: 'FROM' }
-{ type: 'acquire', value: 'users' }
-{ type: 'keyword', value: 'WHERE' }
-{ type: 'condition', value: 'age > 30' }
-{ type: 'keyword', value: 'SELECT' }
-{ type: 'acquire', value: 'first_name, last_name ' }
+{ type: 'source', keyword: 'FROM', value: 'users' }
+{ type: 'source-operation', keyword: 'WHERE', value: 'age > 30' }
+{ type: 'action', keyword: 'SELECT', value: 'first_name, last_name '  }
 
 [
     {

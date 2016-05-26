@@ -1,22 +1,21 @@
-//very simple 'two-step' lexer
 let tokens = []
 
-//push two-steps as separate tokens
-function extractTokens(matches){
-    tokens.push({type: 'keyword', value: matches[1]}) 
-    tokens.push({type: 'acquire', value: matches[2]}) 
+//make compound tokens with operator(keyword) -> operand(value) differentiating
+function extractTokens(type, matches){
+    tokens.push({type: type, keyword: matches[1].toLowerCase(), value: matches[2]}) 
 }
 
 export default function tokenize(input){
     
     //first, lets get the data source
-    extractTokens(input.match(/(FROM|INTO|UPDATE) ([\w]+)/i))
+    extractTokens('source', input.match(/(FROM|INTO|UPDATE) ([\w]+)/i))
 
     //check if there are any source operations (where, order by, limit, etc...)
-    extractTokens(input.match(/(WHERE) ([\w]+)/i))
+    extractTokens('source-operation', input.match(/(WHERE) ([\w]+)/i))
 
     //now do any actions (select, insert, delete, update)
-    extractTokens(input.match(/(SELECT|INSERT|DELETE|UPDATE) ([\w]+)/i))
+    extractTokens('action', input.match(/(SELECT|INSERT|DELETE|UPDATE) ([\w]+)/i))
 
+    //return implicitly ordered tokens
     return tokens
 }
