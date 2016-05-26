@@ -1,4 +1,4 @@
 //use browser window.localStorage
-const store = localStorage
+//const store = localStorage
 
-export store
+export const store = localStorage

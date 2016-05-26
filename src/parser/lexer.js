@@ -7,7 +7,7 @@ function extractTokens(matches){
     tokens.push({type: 'acquire', value: matches[2]}) 
 }
 
-export default function lexer(input){
+export default function tokenize(input){
     
     //first, lets get the data source
     extractTokens(input.match(/(FROM|INTO|UPDATE) ([\w]+)/i))
