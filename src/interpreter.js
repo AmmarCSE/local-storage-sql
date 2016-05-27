@@ -1,34 +1,31 @@
-const executeMap = {
-    'source' : (ast, accumulatedResult) => {
-            let source = []
-            ast.operations.forEach(operation => {
-                executeOperationSourceMap(operation.type)
-            }
+import * from 'implementor'
 
-            return source
+const evaluateMap = {
+    'source' : (ast, accumulatedResult) => {
+            accumulatedResult = implementor.retrieve(ast.value)
+            ast.operations.forEach(operation => {
+                evaluateOperationSourceMap[operation.type](operation, accumulatedResult)
+            }
         },
     'action' : (token) => {
             type.value.split(',')
         }
    }
 
-const executeOperationSourceMap = {
+const evaluateOperationSourceMap = {
     'where' : (ast, accumulatedResult) => {
-
-
+            accumulatedResult = implementor.filter(ast.vars, accumulatedResult)
         } 
   }
 
-const executeActionMap = {
+const evaluateActionMap = {
     'select' : (ast, accumulatedResult) => {
-
-
-        } 
+        accumulatedResult = implementor.select(ast.vars, accumulatedResult)
   }
 
-export function execute(asts, accumulatedResult = false) {
+export function evaluate(asts, accumulatedResult = false) {
     for(let ast of asts){
-        accumulatedResult = executeMap[ast.type](ast, accumulatedResult))
+        evaluateMap[ast.type](ast, accumulatedResult))
     }
 
     return accumulatedResult
