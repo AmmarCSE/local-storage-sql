@@ -1,12 +1,14 @@
-//separate array into 'every other' or 'white' and 'black' stripes
-export function dejuxtapose(array){
-    let whites = []
-    for(let i = 1; i < array.length; i+=2){
-        whites.push(array[i])
-    }
+import agent from 'agent'
 
-    return {
-        whites,
-        blacks : array
-    }
+export function seed(){
+    const querys = [
+        'INSERT INTO users (first_name, last_name, age, sex) VALUES("Jack", "Black", 25, "Male")',
+        'INSERT INTO users (first_name, last_name, age, sex) VALUES("Even", "Steven", 40, "Male")',
+        'INSERT INTO users (first_name, last_name, age, sex) VALUES("Sandy", "Randy", 37, "Female")',
+        'INSERT INTO users (first_name, last_name, age, sex) VALUES("Jane", "Smith", 35, "Female")',
+        'INSERT INTO users (first_name, last_name, age, sex) VALUES("Bob", "Dole", 21, "Male")',
+        'INSERT INTO users (first_name, last_name, age, sex) VALUES("Becky", "Anderson", 50, "Female")'
+    ]
+
+    query.forEach(query => agent.query(query))
 }
