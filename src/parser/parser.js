@@ -13,15 +13,15 @@ const typeMap = {
             let ast = asts[asts.length - 1]
             ast.operations.push({
                 type : token.type,
-                vars : operationVarsMap[token.type](token)
+                vars : varsMap[token.keyword](token)
             })
     
         },
     'action' : (token, asts) => {
             asts.push({
                 type : 'action',
-                value: token.value,
-                vars : operationVarsMap[token.type](token)
+                value: token.keyword,
+                vars : varsMap[token.keyword](token)
             })
         }
     }
@@ -34,9 +34,18 @@ const varsMap = {
     'select' : (token) => {
             type.value.split(',')
         },
+    'insert into' : (token) => {
+            let columns = token.value.match(/\(([, \w]+)\)/)[1].split(',')
+            let values = token.value.match(/VALUES\(([", \w]+)\)/i)[1].split(',')
+
+            return {
+                columns,
+                values
+            }
+        }
    }
 
-export function parse(query) {
+export default function parse(query) {
     let tokens = tokenize(query)
 
     //for now, no need to have an overall parent 'prog' type node
@@ -45,36 +54,6 @@ export function parse(query) {
     tokens.forEach((token) => {
         typeMap[token.type](token, asts)
     })
+
+    return asts
 }
-/*[
-    {
-        "type": "source",
-        "value": "users",
-        "operations": [
-            { 
-                "type": "where",
-                "vars": [
-                    "age > 30"
-                ]
-            },
-            { 
-                "type": "orderby",
-                "vars": [
-                    "last_name",
-                    "asc"
-                ]
-            }
-        ]
-    },
-    {
-        "type": "action",
-        "value": "select",
-        "vars": {
-            [ 
-                first_name,
-                last_name             
-            ],
-        }
-    }
-]
-}*/

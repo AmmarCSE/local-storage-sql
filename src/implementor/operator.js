@@ -1,8 +1,8 @@
-import parse from '../parser/parser'
-import execute from '../interpreter'
-import store from 'store'
+import parse from 'parser/parser'
+import evaluate from 'implementor/interpreter'
+import store from 'implementor/store'
 
-export function processQuery(query) {
+export default function processQuery(query) {
     let asts = parse(query)
-    return execute(asts)
+    return evaluate(asts)
 }

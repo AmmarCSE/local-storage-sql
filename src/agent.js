@@ -1,5 +1,9 @@
-import operator from 'operator'
+import processQuery from 'implementor/operator'
 
-export function query(query){
-    return operator.processQuery(query)
+function query(query){
+    return processQuery(query)
 }
+
+export const agent = {
+        query
+    }

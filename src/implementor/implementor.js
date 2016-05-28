@@ -1,9 +1,14 @@
-import dejuxtapose from 'utils'
+import dejuxtapose from 'utils/utils'
+import {store} from 'implementor/store'
 
 export function retrieve(table) {
     //defualt to empty array if table is not found since we do not support(yet) CREATE TABLE statements
     table = JSON.parse(store.getItem(table)) || []
     return table
+}
+
+export function setSource(sourceName) {
+    source = sourceName
 }
 
 export function filter(conditions, data) {
@@ -40,10 +45,21 @@ export function select(cols, data) {
         row.keys.forEach(key => selectedRow[key] = row[key])
         
         return selectedRow
-    }
+    })
 
     return data 
 }
+
+export function insert(vars, table) {
+    let row = {}
+    for(let i = 0; i < vars.columns; i++){
+        row[columns[i]] = values[i]
+    }
+
+    table.push(row)
+}
+
+let source = ''
 
 //just use a map to avoid switch-case 
 const conditionMap = {

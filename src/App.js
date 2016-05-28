@@ -1,4 +1,7 @@
-function InputStream(input) {
+import seed from 'utils/seed'
+
+seed()
+/*function InputStream(input) {
     var pos = 0, line = 1, col = 0;
     return {
         next  : next,
@@ -44,7 +47,7 @@ function TokenStream(input) {
         return is_id_start(ch) || "?!-<>=0123456789".indexOf(ch) >= 0;
     }
     function is_op_char(ch) {
-        return "+-*/%=&|<>!".indexOf(ch) >= 0;
+        return "+-/%=&|<>!".indexOf(ch) >= 0;
     }
     function is_punc(ch) {
         return ",;(){}[]".indexOf(ch) >= 0;
@@ -407,7 +410,6 @@ function make_lambda(env, exp) {
     return lambda;
 }
 
-/* -----[ entry point for NodeJS ]----- */
 
 var globalEnv = new Environment();
 

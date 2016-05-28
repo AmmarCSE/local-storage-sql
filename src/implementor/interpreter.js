@@ -1,65 +1,45 @@
-import * from 'implementor'
+import * as implementor from 'implementor/implementor'
 
-const evaluateMap = {
-    'source' : (ast, accumulatedResult) => {
-            accumulatedResult = implementor.retrieve(ast.value)
-            ast.operations.forEach(operation => {
-                evaluateOperationSourceMap[operation.type](operation, accumulatedResult)
-            }
-        },
-    'action' : (token) => {
-            type.value.split(',')
-        }
-   }
-
-const evaluateOperationSourceMap = {
-    'where' : (ast, accumulatedResult) => {
-            accumulatedResult = implementor.filter(ast.vars, accumulatedResult)
-        } 
-  }
-
-const evaluateActionMap = {
-    'select' : (ast, accumulatedResult) => {
-        accumulatedResult = implementor.select(ast.vars, accumulatedResult)
-  }
-
-export function evaluate(asts, accumulatedResult = false) {
+//evaluate, execute similar terms, yet completely different meanings
+//not going to waste time on naming this one
+export default function evaluate(asts) {
+    accumulatedResult = false
+    source = ''
+    //accumulate results successively since our asts are in the correct order
     for(let ast of asts){
-        evaluateMap[ast.type](ast, accumulatedResult))
+        evaluateMap[ast.type](ast, accumulatedResult)
     }
 
     return accumulatedResult
 }
 
-/*[
-    {
-        "type": "source",
-        "value": "users",
-        "operations": [
-            { 
-                "type": "where",
-                "vars": [
-                    "age > 30"
-                ]
-            },
-            { 
-                "type": "orderby",
-                "vars": [
-                    "last_name",
-                    "asc"
-                ]
-            }
-        ]
-    },
-    {
-        "type": "action",
-        "value": "select",
-        "vars": {
-            [ 
-                first_name,
-                last_name             
-            ],
+let accumulatedResult = false, source = ''
+
+const evaluateMap = {
+    //do both source and source operations in same parent iteration
+    'source' : (ast) => {
+            source = ast.value
+            accumulatedResult = implementor.retrieve(source)
+            ast.operations.forEach(operation => {
+                evaluateOperationSourceMap[operation.type](operation)
+            })
+        },
+    'action' : (ast) => {
+            evaluateActionMap[ast.value](ast)
         }
-    }
-]
-}*/
+   }
+
+const evaluateOperationSourceMap = {
+    'where' : (ast) => {
+            implementor.filter(ast.vars, accumulatedResult)
+        } 
+  }
+
+const evaluateActionMap = {
+    'select' : (ast) => {
+        implementor.select(ast.vars, accumulatedResult)
+      },
+    'insert into' : (ast) => {
+        implementor.insert(ast.vars, source)
+      }
+  }

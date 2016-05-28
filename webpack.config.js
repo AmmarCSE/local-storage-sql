@@ -25,5 +25,9 @@ module.exports = {
         include: __dirname
       }
     ]
+  },
+  resolve: {
+    root: path.resolve('./src'),
+    extensions: ['', '.js']
   }
 }

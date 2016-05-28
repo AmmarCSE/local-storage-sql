@@ -1,6 +1,6 @@
-import agent from 'agent'
+import {agent} from 'agent'
 
-export function seed(){
+export default function seed(){
     const querys = [
         'INSERT INTO users (first_name, last_name, age, sex) VALUES("Jack", "Black", 25, "Male")',
         'INSERT INTO users (first_name, last_name, age, sex) VALUES("Even", "Steven", 40, "Male")',
@@ -10,5 +10,8 @@ export function seed(){
         'INSERT INTO users (first_name, last_name, age, sex) VALUES("Becky", "Anderson", 50, "Female")'
     ]
 
-    query.forEach(query => agent.query(query))
+agent.query(querys[0])
+agent.query(querys[1])
+return
+    querys.forEach(query => agent.query(query))
 }
