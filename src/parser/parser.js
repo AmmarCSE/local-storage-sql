@@ -38,6 +38,10 @@ const varsMap = {
             let columns = token.value.match(/\(([, \w]+)\)/)[1].split(',')
             let values = token.value.match(/VALUES\(([", \w]+)\)/i)[1].split(',')
 
+            columns = columns.map(column => column.trim())
+            //remove quotes for VALUES("jack",...
+            values = values.map(value => value.replace(/['"]/g, '').trim())
+
             return {
                 columns,
                 values

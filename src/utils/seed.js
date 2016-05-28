@@ -10,8 +10,5 @@ export default function seed(){
         'INSERT INTO users (first_name, last_name, age, sex) VALUES("Becky", "Anderson", 50, "Female")'
     ]
 
-agent.query(querys[0])
-agent.query(querys[1])
-return
     querys.forEach(query => agent.query(query))
 }
