@@ -1,4 +1,4 @@
-import {agent} from 'agent'
+import browserSqlAgent from 'agent'
 
 export default function seed(){
     const querys = [
@@ -10,5 +10,6 @@ export default function seed(){
         'INSERT INTO users (first_name, last_name, age, sex) VALUES("Becky", "Anderson", 50, "Female")'
     ]
 
+    let agent = browserSqlAgent()
     querys.forEach(query => agent.query(query))
 }

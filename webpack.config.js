@@ -9,7 +9,7 @@ module.exports = {
   ],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: 'local-storage-sql.js',
     publicPath: '/static/'
   },
   plugins: [

@@ -1,6 +1,7 @@
 import seed from 'utils/seed'
 
 seed()
+require("expose?browserSqlAgent!../src/agent.js")
 /*function InputStream(input) {
     var pos = 0, line = 1, col = 0;
     return {
