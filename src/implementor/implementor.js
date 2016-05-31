@@ -13,7 +13,7 @@ export default class {
 
     //only support one join for now
     setJoin(predicate) {
-        this.predicate = predicate 
+        this.joinPredicate = predicate 
     }
 
     setFilter(conditions) {
@@ -25,15 +25,17 @@ export default class {
         //defualt to empty array if table is not found since we do not support(yet) CREATE TABLE statements
         this.table = JSON.parse(store.getItem(this.source)) || []
 
-        this.join && _join()
+        this.joinPredicate && this._join()
     }
 
     _join() {
-        let joinTable = JSON.parse(store.getItem(this.predicate.source)) || []
+        let joinTable = JSON.parse(store.getItem(this.joinPredicate.source)) || []
         
         this.table.forEach((row, index) => {
+            let predicate = this.joinPredicate.predicate
+            let leftColumn = predicate[this.source], rightColumn = predicate[this.joinPredicate.source]
             //stop at first find since we are not going to implement compound results from joins for now
-            let candidate = joinTable.find(joinRow => row[this.predicate.predicate[this.source]] == joinRow[this.predicate.predicate[predicate.source]])
+            let candidate = joinTable.find(joinRow => row[leftColumn] == joinRow[rightColumn])
 
             if(candidate){
                 Object.assign(row, candidate)
@@ -71,7 +73,7 @@ export default class {
     }
 
     select(cols) {
-        this._fillTable(this.source)
+        this._fillTable()
 
         this.innerResult = this.table.map(row => {
             let selectedRow = cols.reduce((selectedRow, current) => {
@@ -84,7 +86,7 @@ export default class {
     }
 
     insert(vars) {
-        this.fillTable(this.source)
+        this._fillTable()
 
         let {columns, values} = vars, row = {}
         for(let i = 0; i < columns.length; i++){

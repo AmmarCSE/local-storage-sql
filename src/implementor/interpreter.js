@@ -20,7 +20,7 @@ const evaluateMap = {
     'source' : (ast) => {
             tableAdapter.setSource(ast.value)
             ast.operations.forEach(operation => {
-                evaluateOperationSourceMap[operation.type](operation)
+                evaluateOperationSourceMap[operation.value](operation)
             })
         },
     'action' : (ast) => {

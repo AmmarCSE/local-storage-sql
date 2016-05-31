@@ -26,6 +26,7 @@ const typeMap = {
             let ast = asts[asts.length - 1]
             ast.operations.push({
                 type : token.type,
+                value: token.keyword,
                 vars : varsMap[token.keyword](token)
             })
     
@@ -47,28 +48,28 @@ const varsMap = {
 
             return {
                 conditions : sifted.blacks,
-                logicalOperators = sifted.whites
+                logicalOperators : sifted.whites
             }
         },
     //do basic joins for now in which the only predicate operator is =
     //and predicate columns must be 'namespaced'
     'join' : (token) => {
-            let matches = token.value.match(/([\w]+) ON ([\w]+) = ([\w]+)/i)
-            let leftPredicate = matches[1].split('.'), rightPredicate = matches[2].split('.')
+            let matches = token.value.match(/([\w]+) ON ([.\w]+) = ([.\w]+)/i)
+            let leftPredicate = matches[2].split('.'), rightPredicate = matches[3].split('.')
             let predicate = [leftPredicate, rightPredicate].reduce((predicate, current) =>{
                 predicate[current[0]] = current[1]
                 return predicate
             }, {})
 
             return {
-                source: matches[0]
+                source: matches[1],
                 predicate 
            }
         },
     'select' : token => token.value.split(','),
     'insert into' : (token) => {
             let columns = token.value.match(/\(([, \w]+)\)/)[1].split(',')
-            let values = token.value.match(/VALUES\(([", \w]+)\)/i)[1].split(',')
+            let values = token.value.match(/VALUES\((.+)\)/i)[1].split(',')
 
             columns = columns.map(column => column.trim())
             //remove quotes for VALUES("jack",...

@@ -15,6 +15,7 @@ gulp.task('default', () => {
 gulp.task('scripts', () => {
   return gulp.src('src/grid/App.js')
     .pipe(webpack(require('./webpack.config.js')))
+    .on('error', handleError)
     .pipe(gulp.dest('dist/'))
     .pipe(reload({stream: true}));
 });
@@ -37,3 +38,8 @@ gulp.task('serve', [ 'scripts'], () => {
   gulp.watch('src/**/*.js', ['scripts']);
 });
 
+function handleError (error) {
+  console.log(error.toString())
+
+  this.emit('end')
+}

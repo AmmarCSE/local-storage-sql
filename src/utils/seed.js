@@ -15,4 +15,6 @@ export default function seed(){
     let agent = browserSqlAgent()
     agent.clear()
     querys.forEach(query => agent.query(query))
+    var data = agent.query('SELECT product_id, category_name, name, stocked, price FROM products JOIN categories ON products.category_id = categories.category_id')
+console.log(data)
 }
