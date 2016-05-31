@@ -31,6 +31,9 @@ const evaluateMap = {
 const evaluateOperationSourceMap = {
     'where' : (ast) => {
             tableAdapter.setFilter(ast.vars)
+        },
+    'join' : (ast) => {
+            tableAdapter.setJoin(ast.vars)
         } 
   }
 

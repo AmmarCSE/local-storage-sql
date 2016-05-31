@@ -5,7 +5,7 @@ export default function tokenize(input){
     extractTokens('source', input.match(/(FROM|INSERT INTO|UPDATE) ([\w]+)/i), tokens)
 
     //check if there are any source operations (where, order by, limit, etc...)
-    extractTokens('source-operation', input.match(/(WHERE) ([\w]+)/i), tokens)
+    extractTokens('source-operation', input.match(/(JOIN) ([\w]+ ON [\w]+ = [\w]+)|(WHERE) ([\w]+)/i), tokens)
 
     //now do any actions (select, insert, delete, update)
     extractTokens('action', input.match(actionRegexMap[tokens[0].keyword]), tokens)
@@ -17,7 +17,7 @@ export default function tokenize(input){
 
 //use regex by action to avoid one big /..exp..|..exp..|...../
 const actionRegexMap = {
-    'select' : /(SELECT) ([\w]+)/i,
+    'from' : /(SELECT) ([\w]+)/i,
     'insert into' : /(INSERT INTO) [\w]+ (\([, \w]+\) VALUES\([", \w]+\))/i
 }
 
