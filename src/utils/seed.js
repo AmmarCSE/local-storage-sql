@@ -10,11 +10,10 @@ export default function seed(){
         'INSERT INTO products (product_id, category_id, name, stocked, price) VALUES(4, 2, "iPod Touch", true, "$99.99")',
         'INSERT INTO products (product_id, category_id, name, stocked, price) VALUES(5, 2, "iPhone 5", false, "$399.99")',
         'INSERT INTO products (product_id, category_id, name, stocked, price) VALUES(6, 2, "Nexus 7", true, "$199.99")',
+        'UPDATE products SET name="wechat" WHERE product_id > 3'
     ]
 
     let agent = browserSqlAgent()
     agent.clear()
     querys.forEach(query => agent.query(query))
-    var data = agent.query('SELECT product_id, category_name, name, stocked, price FROM products JOIN categories ON products.category_id = categories.category_id')
-console.log(data)
 }

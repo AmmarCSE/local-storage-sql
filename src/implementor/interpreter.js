@@ -43,5 +43,8 @@ const evaluateActionMap = {
       },
     'insert into' : (ast) => {
         tableAdapter.insert(ast.vars)
+      },
+    'update' : (ast) => {
+        tableAdapter.update(ast.vars.units)
       }
   }

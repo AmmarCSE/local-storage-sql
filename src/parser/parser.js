@@ -1,4 +1,5 @@
 import tokenize from '../parser/lexer'
+import {dejuxtapose} from '../utils/utils'
 
 export default function parse(query) {
     let tokens = tokenize(query)
@@ -44,7 +45,7 @@ const typeMap = {
 const varsMap = {
     'where' : (token) => {
             //separate conditions from operands
-            let sifted = utils.dejuxtapose(token.value)
+            let sifted = dejuxtapose(token.value)
 
             return {
                 conditions : sifted.blacks,
@@ -73,11 +74,28 @@ const varsMap = {
 
             columns = columns.map(column => column.trim())
             //remove quotes for VALUES("jack",...
-            values = values.map(value => value.replace(/['"]/g, '').trim())
+            values = values.map(value => deQuote(value))
 
             return {
                 columns,
                 values
             }
+        },
+    'update' : (token) => {
+            //col1=val1,col2=val2 => [{col1:val1},{col2:val2}]
+            let units = token.value
+                .split(',')
+                .map(unit => { 
+                    let keyValuePairParts = unit.split('=')
+                    return { [keyValuePairParts[0]] : deQuote(keyValuePairParts[1]) }
+                })
+    
+            return {
+                units
+            }
         }
    }
+
+function deQuote(input){
+    return input.replace(/['"]/g, '')
+}
