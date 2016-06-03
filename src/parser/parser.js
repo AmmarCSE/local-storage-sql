@@ -55,7 +55,7 @@ const varsMap = {
     //do basic joins for now in which the only predicate operator is =
     //and predicate columns must be 'namespaced'
     'join' : (token) => {
-            let matches = token.value.match(/([\w]+) ON ([.\w]+) = ([.\w]+)/i)
+            let matches = token.value.match(/([\w]+) ON ([.\w]+)=([.\w]+)/i)
             let leftPredicate = matches[2].split('.'), rightPredicate = matches[3].split('.')
             let predicate = [leftPredicate, rightPredicate].reduce((predicate, current) =>{
                 predicate[current[0]] = current[1]
@@ -93,6 +93,9 @@ const varsMap = {
             return {
                 units
             }
+        },
+    'delete' : (token) => {
+            return null
         }
    }
 

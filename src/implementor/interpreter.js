@@ -46,5 +46,9 @@ const evaluateActionMap = {
       },
     'update' : (ast) => {
         tableAdapter.update(ast.vars.units)
+      },
+    'delete' : (ast) => {
+        tableAdapter.delete()
       }
+
   }

@@ -21,7 +21,7 @@ export default class {
     }
 
     //use qsuedo private methods via _ for now since there is no official es6 way of doing it
-    _fillTable(process = true) {
+    _fillTable(process = false) {
         //defualt to empty array if table is not found since we do not support(yet) CREATE TABLE statements
         this.table = JSON.parse(store.getItem(this.source)) || []
 
@@ -91,7 +91,7 @@ export default class {
     }
 
     select(cols) {
-        this._fillTable()
+        this._fillTable(true)
 
         this.innerResult = this.table.map(row => {
             let selectedRow = cols.reduce((selectedRow, current) => {
@@ -119,7 +119,7 @@ export default class {
     }
 
     update(units) {
-        this._fillTable(false)
+        this._fillTable()
 
         let filtered = this._filter(false)
 
@@ -129,6 +129,18 @@ export default class {
                 row[key] = unit[key] 
             })
         })
+
+        this.commit()
+
+        this.innerResult = true
+    }
+
+    //this disgusts me and makes me want to redo the whole architecture :-(
+    delete() {
+        this._fillTable()
+        let filteredSerialized = this._filter(false).map(filteredRow => JSON.stringify(filteredRow))
+
+        this.table = this.table.filter(row => !~filteredSerialized.indexOf(JSON.stringify(row)))
 
         this.commit()
 
