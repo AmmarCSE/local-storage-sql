@@ -115,7 +115,7 @@ export default class {
 
         this.commit()
 
-        this.innerResult = true
+        this.innerResult = row
     }
 
     update(units) {
@@ -135,7 +135,7 @@ export default class {
         this.innerResult = true
     }
 
-    //this disgusts me and makes me want to redo the whole architecture :-(
+    //the way this is done disgusts me and makes me want to redo the whole architecture :-(
     delete() {
         this._fillTable()
         let filteredSerialized = this._filter(false).map(filteredRow => JSON.stringify(filteredRow))
