@@ -57,7 +57,7 @@ export default class {
     _filter(mutateOriginal=true) {
         let conditions = this.conditions.conditions;
         //conditions = conditions.split(/(?<=^([^"]|"[^"]*")*)(and|or)/)
-        conditions = conditions.split(/and|or/)
+        conditions = conditions.split(/ and | or /)
 
         let logicalOperators = this.conditions.logicalOperators;
 
