@@ -34,6 +34,9 @@ const evaluateOperationSourceMap = {
         },
     'join' : (ast) => {
             tableAdapter.setJoin(ast.vars)
+        }, 
+    'limit' : (ast) => {
+            tableAdapter.setLimit(ast.vars)
         } 
   }
 

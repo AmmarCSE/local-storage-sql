@@ -67,6 +67,14 @@ const varsMap = {
                 predicate 
            }
         },
+    'limit' : (token) => {
+            let splat = token.value.split(',')
+
+            return {
+                skip: +splat[0],
+                take: +splat[1]
+           }
+        },
     'select' : token => token.value.split(','),
     'insert into' : (token) => {
             let columns = token.value.match(/\(([, \w]+)\)/)[1].split(',')

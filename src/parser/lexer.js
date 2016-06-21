@@ -9,8 +9,15 @@ export default function tokenize(input){
     //check if there are any source operations (where, order by, limit, etc...)
     //extractTokens('source-operation', input.match(/(WHERE|JOIN) ([.\w]+(<|>|=|!=|<=|>=)[.\w]+)/i), tokens)
     //extractTokens('source-operation', input.match(/(JOIN) ([\w]+ ON [.\w]+=[.\w]+)|(WHERE) ([.\w]+(<|>|=|!=|<=|>=)[.\w]+)/i), tokens)
-    extractTokens('source-operation', input.match(/(JOIN) ([\w]+ ON [.\w]+=[.\w]+)/i), tokens)
+    let cloned = input
+    while(/(JOIN) ([\w]+ ON [.\w]+=[.\w]+)/i.test(cloned)){
+        extractTokens('source-operation', cloned.match(/(JOIN) ([\w]+ ON [.\w]+=[.\w]+)/i), tokens)
+        cloned = cloned.replace(/(JOIN) ([\w]+ ON [.\w]+=[.\w]+)/i, '')
+    }
+
     extractTokens('source-operation', input.match(/(WHERE) ([.\w]+(<|>|=|!=|<=|>=)[.\w]+)/i), tokens)
+
+    extractTokens('source-operation', input.match(/(LIMIT) (\d+,\d+)/i), tokens)
 
     //now do any actions (select, insert, delete, update)
     extractTokens('action', input.match(actionRegexMap[tokens[0].keyword]), tokens)
