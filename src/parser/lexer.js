@@ -47,6 +47,6 @@ function cleanse(input){
 
 //make compound tokens with operator(keyword) -> operand(value) differentiating
 function extractTokens(type, matches, tokens){
-    matches && tokens.push({type: type, keyword: matches[1].toLowerCase(), value: matches[2]}) 
+    matches && tokens.push({type, keyword: matches[1].toLowerCase(), value: matches[2]}) 
 }
 

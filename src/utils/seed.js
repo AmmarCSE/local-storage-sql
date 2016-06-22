@@ -49,6 +49,7 @@ export default function seed(){
                             LIMIT 18, 3
 `
                         ,
+        'SELECT supplier_id, supplier_name FROM suppliers JOIN products ON suppliers.supplier_id = products.supplier_id WHERE category_id = 3'
     ]
 
     let agent = browserSqlAgent()

@@ -45,7 +45,18 @@ export default class {
         this.joinPredicates.forEach(joinPredicate => {
             let joinTable = JSON.parse(store.getItem(joinPredicate.source)) || []
             
-            this.table.forEach((row, index) => {
+            this.table = this.table.reduce((aggregated, current) => {
+                let predicate = joinPredicate.predicate
+                let leftColumn = predicate[this.source], rightColumn = predicate[joinPredicate.source]
+
+                let candidates = 
+                    joinTable
+                        .filter(joinRow => current[leftColumn] == joinRow[rightColumn])
+                        .map(joinRow => Object.assign({}, current, joinRow))
+
+                return aggregated.concat(candidates)
+            }, [])
+            /*this.table.forEach((row, index) => {
                 let predicate = joinPredicate.predicate
                 let leftColumn = predicate[this.source], rightColumn = predicate[joinPredicate.source]
                 //stop at first find since we are not going to implement compound results from joins for now
@@ -57,7 +68,7 @@ export default class {
                 else{
                     this.table.splice(index, 1)
                 }
-            })
+            })*/
         })
     }
 
@@ -109,7 +120,6 @@ export default class {
 
     select(cols) {
         this._fillTable(true)
-
         this.innerResult = this.table.map(row => {
             let selectedRow = cols.reduce((selectedRow, current) => {
                 selectedRow[current] = row[current]
