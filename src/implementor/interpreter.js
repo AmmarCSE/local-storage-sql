@@ -20,15 +20,18 @@ const evaluateMap = {
     'source' : (ast) => {
             tableAdapter.setSource(ast.value)
             ast.operations.forEach(operation => {
-                evaluateOperationSourceMap[operation.value](operation)
+                evaluateOperationMap[operation.value](operation)
             })
         },
     'action' : (ast) => {
             evaluateActionMap[ast.value](ast)
+        },
+    'result-operation' : (ast) => {
+            evaluateOperationMap[ast.value](ast)
         }
    }
 
-const evaluateOperationSourceMap = {
+const evaluateOperationMap = {
     'where' : (ast) => {
             tableAdapter.setFilter(ast.vars)
         },
@@ -37,6 +40,9 @@ const evaluateOperationSourceMap = {
         }, 
     'limit' : (ast) => {
             tableAdapter.setLimit(ast.vars)
+        },
+    'distinct' : (ast) => {
+            tableAdapter.uniqueify()
         } 
   }
 

@@ -130,6 +130,14 @@ export default class {
         })
     }
 
+    uniqueify() {
+        let serialized = this.innerResult.map(row => JSON.stringify(row))
+        this.innerResult = 
+            serialized
+                .filter((serializedRow, index) => serialized.indexOf(serializedRow) == index)
+                .map(serializedRow => JSON.parse(serializedRow))
+    }
+
     insert(newRows) {
         this._fillTable()
 

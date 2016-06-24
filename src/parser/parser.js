@@ -30,7 +30,6 @@ const typeMap = {
                 value: token.keyword,
                 vars : varsMap[token.keyword](token)
             })
-    
         },
     'action' : (token, asts) => {
             asts.push({
@@ -38,7 +37,14 @@ const typeMap = {
                 value: token.keyword,
                 vars : varsMap[token.keyword](token)
             })
-        }
+        },
+    'result-operation' : (token, asts) => {
+            asts.push({
+                type : token.type,
+                value: token.keyword,
+                vars : varsMap[token.keyword](token)
+            })
+        },
     }
 
 //simplify by combining both source and action 'vars' map
@@ -104,7 +110,11 @@ const varsMap = {
         },
     'delete' : (token) => {
             return null
+        },
+    'distinct' : (token) => {
+            return null
         }
+
    }
 
 function deQuote(input){
