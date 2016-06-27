@@ -7,19 +7,16 @@ export default function tokenize(input){
     extractTokens('source', input.match(/(DELETE FROM|FROM|INSERT INTO|UPDATE) ([\w]+)/i), tokens)
 
     //check if there are any source operations (where, order by, limit, etc...)
-    //extractTokens('source-operation', input.match(/(WHERE|JOIN) ([.\w]+(<|>|=|!=|<=|>=)[.\w]+)/i), tokens)
-    //extractTokens('source-operation', input.match(/(JOIN) ([\w]+ ON [.\w]+=[.\w]+)|(WHERE) ([.\w]+(<|>|=|!=|<=|>=)[.\w]+)/i), tokens)
     let cloned = input
     while(/(JOIN) ([\w]+ ON [.\w]+=[.\w]+)/i.test(cloned)){
         extractTokens('source-operation', cloned.match(/(JOIN) ([\w]+ ON [.\w]+=[.\w]+)/i), tokens)
         cloned = cloned.replace(/(JOIN) ([\w]+ ON [.\w]+=[.\w]+)/i, '')
     }
 
-    extractTokens('source-operation', input.match(/(WHERE) ([.\w]+(<|>|=|!=|<=|>=)[.\w]+)/i), tokens)
+    extractTokens('source-operation', input.match(/(WHERE) ([.\w]+(<|>|=|!=|<=|>=)[.\w]+(?: and | or )?)*/i), tokens)
 
     //now do any actions (select, insert, delete, update)
     extractTokens('action', input.match(actionRegexMap[tokens[0].keyword]), tokens)
-    //extractTokens('action', input.match(/(SELECT) ([\w]+)|(SELECT|INSERT|DELETE|UPDATE) ([\w]+)/i))
 
     extractTokens('result-operation', input.match(/(LIMIT) (\d+,\d+)/i), tokens)
 
@@ -40,7 +37,7 @@ const actionRegexMap = {
 //cleanse by performing unobtrusive operations that will make lexing easier
 function cleanse(input){
     input = input
-        .replace(/ ?(,|=|and|or|>|<|>=|<=|!=) ?/g, '$1')
+        .replace(/ ?(,|=|>|<|>=|<=|!=) ?/g, '$1')
         .replace(/[ ]+/g, ' ')
         //.replace(/['"]/g, '')
 

@@ -20,10 +20,6 @@ export default class {
         this.conditions = conditions
     }
 
-    setLimit(limit) {
-        this.limit = limit 
-    }
-
     //use qsuedo private methods via _ for now since there is no official es6 way of doing it
     _fillTable(process = false) {
         //defualt to empty array if table is not found since we do not support(yet) CREATE TABLE statements
@@ -38,7 +34,6 @@ export default class {
     _processTable() {
         this.joinPredicates && this.joinPredicates.length && this._join()
         this.conditions && this._filter()
-        this.limit && this._page()
     }
 
     _join() { 
@@ -108,16 +103,6 @@ export default class {
         }
     }
 
-    _page() {
-        const { skip, take } = this.limit
-        let targetIndices = []
-        for(let i = skip; i <= skip + take; i++){
-            targetIndices.push(i)
-        }
-
-        this.table = this.table.filter((row, index) => ~targetIndices.indexOf(index))
-    }
-
     select(cols) {
         this._fillTable(true)
         this.innerResult = this.table.map(row => {
@@ -136,6 +121,16 @@ export default class {
             serialized
                 .filter((serializedRow, index) => serialized.indexOf(serializedRow) == index)
                 .map(serializedRow => JSON.parse(serializedRow))
+    }
+
+    limit(limit) {
+        const { skip, take } = limit
+        let targetIndices = []
+        for(let i = skip; i < skip + take; i++){
+            targetIndices.push(i)
+        }
+
+        this.innerResult = this.innerResult.filter((row, index) => ~targetIndices.indexOf(index))
     }
 
     insert(newRows) {

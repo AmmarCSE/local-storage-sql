@@ -39,7 +39,7 @@ const evaluateOperationMap = {
             tableAdapter.setJoin(ast.vars)
         }, 
     'limit' : (ast) => {
-            tableAdapter.setLimit(ast.vars)
+            tableAdapter.limit(ast.vars)
         },
     'distinct' : (ast) => {
             tableAdapter.uniqueify()
