@@ -13,7 +13,7 @@ export default function tokenize(input){
         cloned = cloned.replace(/(JOIN) ([\w]+ ON [.\w]+=[.\w]+)/i, '')
     }
 
-    extractTokens('source-operation', input.match(/(WHERE) ([.\w]+(<|>|=|!=|<=|>=)[.\w]+(?: and | or )?)*/i), tokens)
+    extractTokens('source-operation', input.match(/(WHERE) (([.\w]+(<|>|=|!=|<=|>=)[.\w]+(?: and | or )?)*)/i), tokens)
 
     //now do any actions (select, insert, delete, update)
     extractTokens('action', input.match(actionRegexMap[tokens[0].keyword]), tokens)

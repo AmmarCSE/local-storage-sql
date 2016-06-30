@@ -17,7 +17,7 @@ export default function seed(){
         'INSERT INTO suppliers (supplier_id, supplier_name) VALUES(2, "Dicks Sporting Goods")',
         'INSERT INTO suppliers (supplier_id, supplier_name) VALUES(3, "Walmart")',
 
-        'INSERT INTO products (product_id, category_id, brand_id, supplier_id, name, quantity, price) VALUES(1, 1, 3, 2, "Football", 39, "$49.99")',
+        'INSERT INTO products (product_id, category_id, brand_id, supplier_id, name, quantity, price) VALUES(1, 1, 5, 2, "Football", 39, "$49.99")',
         'INSERT INTO products (product_id, category_id, brand_id, supplier_id, name, quantity, price) VALUES(2, 1, 4, 2, "BaseBall", 15, "$9.99")',
         'INSERT INTO products (product_id, category_id, brand_id, supplier_id, name, quantity, price) VALUES(3, 1, 4, 3, "Basketball", 2, "$29.99")',
         'INSERT INTO products (product_id, category_id, brand_id, supplier_id, name, quantity, price) VALUES(4, 2, 1, 1, "iPod Touch", 33, "$99.99")',
@@ -26,7 +26,7 @@ export default function seed(){
         'INSERT INTO products (product_id, category_id, brand_id, supplier_id, name, quantity, price) VALUES(6, 2, 2, 1, "Nexus 7", 34, "$199.99")',
         'INSERT INTO products (product_id, category_id, brand_id, supplier_id, name, quantity, price) VALUES(4, 2, 1, 1, "iPod Mini", 3, "$99.99")',
         'INSERT INTO products (product_id, category_id, brand_id, supplier_id, name, quantity, price) VALUES(5, 2, 1, 1, "iPhone 3", 13, "$299.99")',
-        'INSERT INTO products (product_id, category_id, brand_id, supplier_id, name, quantity, price) VALUES(1, 1, 3, 2, "Foosball Table", 9, "$449.99")',
+        'INSERT INTO products (product_id, category_id, brand_id, supplier_id, name, quantity, price) VALUES(1, 1, 4, 2, "Foosball Table", 9, "$449.99")',
         'INSERT INTO products (product_id, category_id, brand_id, supplier_id, name, quantity, price) VALUES(2, 1, 4, 2, "Golf Balls", 25, "$29.99")',
 
         'INSERT INTO products (product_id, category_id, brand_id, supplier_id, name, quantity, price) VALUES(3, 1, 4, 3, "Cricket", 2, "$59.99")',
@@ -45,7 +45,7 @@ export default function seed(){
         'INSERT INTO products (product_id, category_id, brand_id, supplier_id, name, quantity, price) VALUES(6, 2, 1, 1, "iPad", 15, "$799.99")',
         'INSERT INTO products (product_id, category_id, brand_id, supplier_id, name, quantity, price) VALUES(2, 1, 4, 2, "Ping Pong Balls", 55, "$9.99")',
 
-        'SELECT DISTINCT category_id, category_name FROM categories JOIN products ON products.category_id = categories.category_id  WHERE category_id=2 and brand_id=1'
+        'SELECT product_id, category_name, brand_name, supplier_name, name, quantity, price FROM products JOIN categories ON products.category_id = categories.category_id JOIN brands ON products.brand_id = brands.brand_id JOIN suppliers ON products.supplier_id = suppliers.supplier_id WHERE category_id=1 and supplier_id=3 LIMIT 0, 5'
         //'SELECT DISTINCT supplier_id, supplier_name FROM suppliers JOIN products ON suppliers.supplier_id = products.supplier_id WHERE category_id = 3'
     ]
 
