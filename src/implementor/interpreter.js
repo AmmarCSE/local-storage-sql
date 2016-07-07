@@ -43,7 +43,10 @@ const evaluateOperationMap = {
         },
     'distinct' : (ast) => {
             tableAdapter.uniqueify()
-        } 
+        },
+    'order by' : (ast) => {
+            tableAdapter.orderby(ast.vars)
+        }
   }
 
 const evaluateActionMap = {

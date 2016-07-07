@@ -8,9 +8,10 @@ export default function tokenize(input){
 
     //check if there are any source operations (where, order by, limit, etc...)
     let cloned = input
-    while(/(JOIN) ([\w]+ ON [.\w]+=[.\w]+)/i.test(cloned)){
-        extractTokens('source-operation', cloned.match(/(JOIN) ([\w]+ ON [.\w]+=[.\w]+)/i), tokens)
-        cloned = cloned.replace(/(JOIN) ([\w]+ ON [.\w]+=[.\w]+)/i, '')
+    let joinExp = /(JOIN) ([\w]+ ON [.\w]+=[.\w]+)/i
+    while(joinExp.test(cloned)){
+        extractTokens('source-operation', cloned.match(joinExp), tokens)
+        cloned = cloned.replace(joinExp, '')
     }
 
     extractTokens('source-operation', input.match(/(WHERE) (([.\w]+(<|>|=|!=|<=|>=)[.\w]+(?: and | or )?)*)/i), tokens)
@@ -19,8 +20,8 @@ export default function tokenize(input){
     extractTokens('action', input.match(actionRegexMap[tokens[0].keyword]), tokens)
 
     extractTokens('result-operation', input.match(/(LIMIT) (\d+,\d+)/i), tokens)
-
     extractTokens('result-operation', input.match(/SELECT ((DISTINCT)) [\w,]+/i), tokens)
+    extractTokens('result-operation', input.match(/(ORDER BY) ([\w]+)/i), tokens)
 
     //return implicitly ordered tokens
     return tokens
@@ -31,7 +32,7 @@ const actionRegexMap = {
     'from' : /(SELECT)(?: DISTINCT)? ([\w,]+)/i,
     'delete from' : /(DELETE)/i,
     'insert into' : /(INSERT INTO) [\w]+ (\([, \w]+\) VALUES\(.+\))/i,
-    'update' : /(UPDATE) [\w]+ SET ([\w]+=\S+)+/i
+    'update' : /(UPDATE) [\w]+(?: JOIN [\w]+ ON [.\w]+=[.\w]+)* SET ([\w]+=\S+)+/i
 }
 
 //cleanse by performing unobtrusive operations that will make lexing easier

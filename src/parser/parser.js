@@ -58,6 +58,7 @@ const varsMap = {
                 logicalOperators : sifted.whites
             }
         },
+    'order by' : (token) => token.value,
     //do basic joins for now in which the only predicate operator is =
     //and predicate columns must be 'namespaced'
     'join' : (token) => {

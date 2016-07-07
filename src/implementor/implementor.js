@@ -20,7 +20,7 @@ export default class {
         this.conditions = conditions
     }
 
-    //use qsuedo private methods via _ for now since there is no official es6 way of doing it
+    //use psuedo private methods via _ for now since there is no official es6 way of doing it
     _fillTable(process = false) {
         //defualt to empty array if table is not found since we do not support(yet) CREATE TABLE statements
         this.table = JSON.parse(store.getItem(this.source)) || []
@@ -51,19 +51,6 @@ export default class {
 
                 return aggregated.concat(candidates)
             }, [])
-            /*this.table.forEach((row, index) => {
-                let predicate = joinPredicate.predicate
-                let leftColumn = predicate[this.source], rightColumn = predicate[joinPredicate.source]
-                //stop at first find since we are not going to implement compound results from joins for now
-                let candidate = joinTable.find(joinRow => row[leftColumn] == joinRow[rightColumn])
-
-                if(candidate){
-                    Object.assign(row, candidate)
-                }
-                else{
-                    this.table.splice(index, 1)
-                }
-            })*/
         })
     }
 
@@ -133,6 +120,15 @@ export default class {
         this.innerResult = this.innerResult.filter((row, index) => ~targetIndices.indexOf(index))
     }
 
+    orderby(orderby) {
+        this.innerResult = this.innerResult.sort((a, b) => {
+            if(a[orderby] < b[orderby]) return -1;
+            if(a[orderby] > b[orderby]) return 1;
+
+            return 0;
+        })
+    }
+
     insert(newRows) {
         this._fillTable()
 
@@ -151,6 +147,8 @@ export default class {
     update(units) {
         this._fillTable()
 
+        this.joinPredicates && this.joinPredicates.length && this._join()
+
         let filtered = this._filter(false)
 
         filtered.forEach(row => {
@@ -162,7 +160,7 @@ export default class {
 
         this.commit()
 
-        this.innerResult = true
+        this.innerResult = filtered 
     }
 
     //the way this is done disgusts me and makes me want to redo the whole architecture :-(
