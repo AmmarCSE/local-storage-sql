@@ -329,8 +329,6 @@
 	        key: 'orderby',
 	        value: function orderby(_orderby) {
 	            this.innerResult = this.innerResult.sort(function (a, b) {
-	                console.log(_orderby);
-	                console.log(a, b);
 	                if (a[_orderby] < b[_orderby]) return -1;
 	                if (a[_orderby] > b[_orderby]) return 1;
 
@@ -800,7 +798,7 @@
 	        //'SELECT DISTINCT supplier_id, supplier_name FROM suppliers JOIN products ON suppliers.supplier_id = products.supplier_id WHERE category_id = 3'
 	        ];
 	        querys.forEach(function (query) {
-	            return agent.query(query);
+	            return console.log(agent.query(query));
 	        });
 	    }
 	}

@@ -51,6 +51,6 @@ export default function seed(){
             'SELECT DISTINCT category_id, category_name FROM categories JOIN products ON products.category_id = categories.category_id ORDER BY category_name'
             //'SELECT DISTINCT supplier_id, supplier_name FROM suppliers JOIN products ON suppliers.supplier_id = products.supplier_id WHERE category_id = 3'
         ]
-        querys.forEach(query => agent.query(query))
+        querys.forEach(query => console.log(agent.query(query)))
     }
 }

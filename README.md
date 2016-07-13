@@ -1,5 +1,5 @@
 # local-storage-sql
-`local-storage-sql` is a basic SQL implementation using browser `localStorage` as a data store and javascript as a query executor and implementor. Most basic versions of query constructs are supported including `SELECT, INSERT, UPDATE, DELETE` as well as source operation contructs `JOIN` and `WHERE`. Data persistence and limits are limited by browser implementations of `localStoarage` and are 5 MB in most cases.
+`local-storage-sql` is a basic SQL implementation using browser `localStorage` as a data store and javascript as a query parser and implementer. Most basic versions of query constructs are supported including `SELECT, INSERT, UPDATE, DELETE` as well as source operation contructs `JOIN` and `WHERE`. Data persistence and limits are limited by browser implementations of `localStoarage` and are 5 MB in most cases.
 
 Getting Set Up
 --------------
